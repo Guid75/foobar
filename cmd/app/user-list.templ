@@ -1,0 +1,23 @@
+package main
+
+templ UserList(users []User) {
+	<section id="users">
+		<h2>Users</h2>
+		<button hx-get="/users/new" hx-target="#user-form" hx-swap="innerHTML">
+			Add user
+		</button>
+		<table>
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>Role</th>
+				</tr>
+			</thead>
+			<tbody id="user-list">
+				for _, user := range users {
+					@UserRow(user)
+				}
+			</tbody>
+		</table>
+	</section>
+}

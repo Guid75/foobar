@@ -1,0 +1,10 @@
+package main
+
+templ UserRow(user User) {
+	<tr>
+  		<td>{user.Username}</td>
+  		<td>{user.Role}</td>
+	</tr>
+
+	<div id="user-form" hx-swap-oob="innerHTML"></div>
+}

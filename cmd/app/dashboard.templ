@@ -1,0 +1,20 @@
+package main
+
+templ DashboardPage(user User, users []User) {
+	<!DOCTYPE html>
+	<html lang="en">
+		<head>
+			<meta charset="UTF-8"/>
+			<title>Dashboard</title>
+			<script src="https://unpkg.com/htmx.org"></script>
+		</head>
+		<body>
+			<h1>Dashboard</h1>
+			<p>Welcome, { user.Username }!</p>
+			<form method="post" action="/auth/logout">
+				<button type="submit">Log out</button>
+			</form>
+			@UserList(users)
+		</body>
+	</html>
+}

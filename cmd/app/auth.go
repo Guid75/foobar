@@ -133,7 +133,7 @@ func (app *App) loginPageHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if err := app.templates.ExecuteTemplate(w, "login.html", nil); err != nil {
+	if err := LoginPage().Render(r.Context(), w); err != nil {
 		log.Println(err)
 	}
 }

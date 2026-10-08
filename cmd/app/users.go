@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 
@@ -38,7 +39,7 @@ func (app *App) registerUserRoutes(mux *http.ServeMux) {
 }
 
 func (app *App) newUserHandler(w http.ResponseWriter, r *http.Request) {
-	if err := app.templates.ExecuteTemplate(w, "user-form.html", nil); err != nil {
+	if err := UserForm().Render(r.Context(), w); err != nil {
 		log.Println(err)
 	}
 }
@@ -85,7 +86,7 @@ func (app *App) createUserHandler(w http.ResponseWriter, r *http.Request) {
 		Role:     "user",
 	}
 
-	if err := app.templates.ExecuteTemplate(w, "user-row.html", user); err != nil {
+	if err := UserRow(user).Render(context.Background(), w); err != nil {
 		log.Println(err)
 	}
 }

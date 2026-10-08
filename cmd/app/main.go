@@ -8,27 +8,18 @@ import (
 	"os"
 	"syscall"
 
-	"html/template"
-
 	"github.com/Guid75/foobar/internal/db"
 	"github.com/charmbracelet/x/term"
 	"golang.org/x/crypto/bcrypt"
 )
 
 type App struct {
-	database  *sql.DB
-	templates *template.Template
+	database *sql.DB
 }
 
 func newApp(database *sql.DB) (*App, error) {
-	templates, err := template.ParseGlob("templates/*.html")
-	if err != nil {
-		return nil, err
-	}
-
 	return &App{
-		database:  database,
-		templates: templates,
+		database: database,
 	}, nil
 }
 
@@ -179,7 +170,7 @@ func (app *App) dashboardHandler(w http.ResponseWriter, r *http.Request) {
 		data.Users = users
 	}
 
-	if err := app.templates.ExecuteTemplate(w, "dashboard.html", data); err != nil {
+	if err := DashboardPage(data.User, data.Users).Render(r.Context(), w); err != nil {
 		log.Println(err)
 	}
 }
