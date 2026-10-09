@@ -14,7 +14,9 @@ templ DashboardPage(user User, users []User) {
 			<form method="post" action="/auth/logout">
 				<button type="submit">Log out</button>
 			</form>
-			@UserList(users)
+			if user.Role == "super_admin" {
+				@UserList(users)
+			}
 		</body>
 	</html>
 }
