@@ -6,6 +6,7 @@ import (
 	"database/sql"
 	"encoding/hex"
 	"errors"
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -130,7 +131,7 @@ func (app *App) loginPageHandler(w http.ResponseWriter, r *http.Request) {
 	_, ok := getSession(r)
 
 	if ok {
-		http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+		http.Redirect(w, r, "/main", http.StatusSeeOther)
 		return
 	}
 
@@ -178,10 +179,11 @@ func (app *App) loginHandler(w http.ResponseWriter, r *http.Request) {
 		SameSite: http.SameSiteLaxMode,
 	})
 
-	http.Redirect(w, r, "/dashboard", http.StatusSeeOther)
+	http.Redirect(w, r, "/main", http.StatusSeeOther)
 }
 
 func (app *App) logoutHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("logout")
 	cookie, err := r.Cookie("session")
 	if err == nil {
 		sessionsMu.Lock()
@@ -198,6 +200,12 @@ func (app *App) logoutHandler(w http.ResponseWriter, r *http.Request) {
 		Secure:   false,
 		SameSite: http.SameSiteLaxMode,
 	})
+
+	if r.Header.Get("HX-Request") == "true" {
+		w.Header().Set("HX-Redirect", "/login")
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

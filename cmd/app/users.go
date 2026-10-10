@@ -17,7 +17,7 @@ func (app *App) registerUserRoutes(mux *http.ServeMux) {
 	mux.Handle(
 		"GET /users",
 		app.requireSuperAdmin(
-			http.HandlerFunc(user.UsersHandler),
+			http.HandlerFunc(user.UsersHandlerFactory(app.database)),
 		),
 	)
 

@@ -29,7 +29,7 @@ func UserForm() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<form hx-post=\"/users\" hx-target=\"#user-list\" hx-swap=\"beforeend\"><div><label for=\"username\">Username</label> <input type=\"text\" id=\"username\" name=\"username\" required></div><div><label for=\"password\">Password</label> <input type=\"password\" id=\"password\" name=\"password\" required></div><button type=\"submit\">Create user</button></form>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<form hx-post=\"/users\" hx-target=\"#user-list\" hx-swap=\"beforeend\"><div><label for=\"username\">Username</label> <input type=\"text\" id=\"username\" name=\"username\" required></div><div><label for=\"password\">Password</label> <input type=\"password\" id=\"password\" name=\"password\" required></div><button type=\"submit\">Create user</button> <button type=\"button\" hx-on:click=\"this.closest('form').remove()\">Close</button></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

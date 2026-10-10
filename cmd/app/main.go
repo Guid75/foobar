@@ -9,7 +9,6 @@ import (
 	"syscall"
 
 	"github.com/Guid75/foobar/internal/db"
-	"github.com/Guid75/foobar/internal/user"
 	"github.com/charmbracelet/x/term"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -138,7 +137,7 @@ func startServer(app *App) {
 
 	mux.HandleFunc("POST /auth/logout", app.logoutHandler)
 
-	mux.Handle("GET /dashboard", app.requireAuth(http.HandlerFunc(app.dashboardHandler)))
+	mux.Handle("GET /main", app.requireAuth(http.HandlerFunc(app.mainHandler)))
 
 	app.registerUserRoutes(mux)
 
@@ -149,34 +148,34 @@ func startServer(app *App) {
 	}
 }
 
-func (app *App) dashboardHandler(w http.ResponseWriter, r *http.Request) {
+func (app *App) mainHandler(w http.ResponseWriter, r *http.Request) {
 	currentUser, ok := getCurrentUserFromContext(r)
 	if !ok {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
 		return
 	}
 
-	data := DashboardData{
-		User: *currentUser,
-	}
+	// data := DashboardData{
+	// 	User: *currentUser,
+	// }
 
-	if currentUser.Role == "super_admin" {
-		users, err := user.List(app.database)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, "Internal server error", http.StatusInternalServerError)
-			return
-		}
+	// if currentUser.Role == "super_admin" {
+	// 	users, err := user.List(app.database)
+	// 	if err != nil {
+	// 		log.Println(err)
+	// 		http.Error(w, "Internal server error", http.StatusInternalServerError)
+	// 		return
+	// 	}
 
-		data.Users = users
-	}
+	// 	data.Users = users
+	// }
 
-	if err := DashboardPage(data.User, data.Users).Render(r.Context(), w); err != nil {
+	if err := MainPage(*currentUser).Render(r.Context(), w); err != nil {
 		log.Println(err)
 	}
 }
 
-type DashboardData struct {
-	User  user.User
-	Users []user.User
-}
+// type DashboardData struct {
+// 	User  user.User
+// 	Users []user.User
+// }

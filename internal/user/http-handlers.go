@@ -14,8 +14,19 @@ func NewUserHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func UsersHandler(w http.ResponseWriter, r *http.Request) {
-	// ...
+func UsersHandlerFactory(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		users, err := List(db)
+		if err != nil {
+			log.Println(err)
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
+		}
+
+		if err := UserList(users).Render(r.Context(), w); err != nil {
+			log.Println(err)
+		}
+	}
 }
 
 func CreateUserHandlerFactory(db *sql.DB) http.HandlerFunc {

@@ -11,5 +11,8 @@ templ UserForm() {
 			<input type="password" id="password" name="password" required/>
 		</div>
 		<button type="submit">Create user</button>
+		<button type="button" hx-on:click="this.closest('form').remove()">
+			Close
+		</button>
 	</form>
 }
