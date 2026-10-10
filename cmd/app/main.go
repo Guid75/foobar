@@ -9,6 +9,7 @@ import (
 	"syscall"
 
 	"github.com/Guid75/foobar/internal/db"
+	"github.com/Guid75/foobar/internal/user"
 	"github.com/charmbracelet/x/term"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -176,6 +177,6 @@ func (app *App) dashboardHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 type DashboardData struct {
-	User  User
-	Users []User
+	User  user.User
+	Users []user.User
 }

@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/Guid75/foobar/internal/user"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -39,7 +40,7 @@ func (app *App) registerUserRoutes(mux *http.ServeMux) {
 }
 
 func (app *App) newUserHandler(w http.ResponseWriter, r *http.Request) {
-	if err := UserForm().Render(r.Context(), w); err != nil {
+	if err := user.UserForm().Render(r.Context(), w); err != nil {
 		log.Println(err)
 	}
 }
@@ -80,13 +81,13 @@ func (app *App) createUserHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := User{
+	newUser := user.User{
 		ID:       int(id),
 		Username: username,
 		Role:     "user",
 	}
 
-	if err := UserRow(user).Render(context.Background(), w); err != nil {
+	if err := user.UserRow(newUser).Render(context.Background(), w); err != nil {
 		log.Println(err)
 	}
 }
@@ -95,8 +96,8 @@ func (app *App) deleteUserHandler(w http.ResponseWriter, r *http.Request) {
 	// ...
 }
 
-func (app *App) findUserByID(id int) (*User, error) {
-	var user User
+func (app *App) findUserByID(id int) (*user.User, error) {
+	var user user.User
 
 	err := app.database.QueryRow(`
         SELECT id, username, role
@@ -114,13 +115,7 @@ func (app *App) findUserByID(id int) (*User, error) {
 	return &user, nil
 }
 
-type User struct {
-	ID       int
-	Username string
-	Role     string
-}
-
-func (app *App) listUsers() ([]User, error) {
+func (app *App) listUsers() ([]user.User, error) {
 	rows, err := app.database.Query(`
         SELECT id, username, role
         FROM users
@@ -132,10 +127,10 @@ func (app *App) listUsers() ([]User, error) {
 	}
 	defer rows.Close()
 
-	var users []User
+	var users []user.User
 
 	for rows.Next() {
-		var user User
+		var user user.User
 
 		if err := rows.Scan(
 			&user.ID,

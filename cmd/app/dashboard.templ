@@ -1,6 +1,8 @@
 package main
 
-templ DashboardPage(user User, users []User) {
+import "github.com/Guid75/foobar/internal/user"
+
+templ DashboardPage(currentUser user.User, users []user.User) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
@@ -10,12 +12,12 @@ templ DashboardPage(user User, users []User) {
 		</head>
 		<body>
 			<h1>Dashboard</h1>
-			<p>Welcome, { user.Username }!</p>
+			<p>Welcome, { currentUser.Username }!</p>
 			<form method="post" action="/auth/logout">
 				<button type="submit">Log out</button>
 			</form>
-			if user.Role == "super_admin" {
-				@UserList(users)
+			if currentUser.Role == "super_admin" {
+				@user.UserList(users)
 			}
 		</body>
 	</html>

@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"sync"
 
+	"github.com/Guid75/foobar/internal/user"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -201,7 +202,7 @@ func (app *App) logoutHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
 
-func (app *App) currentUser(r *http.Request) (*User, bool) {
+func (app *App) currentUser(r *http.Request) (*user.User, bool) {
 	session, ok := getSession(r)
 	if !ok {
 		return nil, false
@@ -215,7 +216,7 @@ func (app *App) currentUser(r *http.Request) (*User, bool) {
 	return user, true
 }
 
-func getCurrentUserFromContext(r *http.Request) (*User, bool) {
-	user, ok := r.Context().Value(userContextKey).(*User)
+func getCurrentUserFromContext(r *http.Request) (*user.User, bool) {
+	user, ok := r.Context().Value(userContextKey).(*user.User)
 	return user, ok
 }
