@@ -1,0 +1,6 @@
+package user
+
+templ CreateUserResponse(user User) {
+	@UserRow(user)
+	<div id="user-form" hx-swap-oob="innerHTML"></div>
+}

@@ -2,7 +2,6 @@ package user
 
 import (
 	"database/sql"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -58,12 +57,7 @@ func CreateUserHandlerFactory(db *sql.DB) http.HandlerFunc {
 			Role:     "user",
 		}
 
-		if err := UserRow(newUser).Render(r.Context(), w); err != nil {
-			log.Println(err)
-		}
-
-		_, err = fmt.Fprint(w, `<div id="user-form" hx-swap-oob="innerHTML"></div>`)
-		if err != nil {
+		if err := CreateUserResponse(newUser).Render(r.Context(), w); err != nil {
 			log.Println(err)
 		}
 	}
