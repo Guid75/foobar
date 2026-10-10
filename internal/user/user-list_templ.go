@@ -29,7 +29,7 @@ func UserList(users []User) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section id=\"users\"><h2>Users</h2><button hx-get=\"/users/new\" hx-target=\"#user-form\" hx-swap=\"innerHTML\">Add user</button><table><thead><tr><th>Username</th><th>Role</th></tr></thead> <tbody id=\"user-list\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<section id=\"users\"><h2>Users</h2><button hx-get=\"/users/new\" hx-target=\"#user-form\" hx-swap=\"innerHTML\">Add user</button><div id=\"user-form\"></div><table><thead><tr><th>Username</th><th>Role</th></tr></thead> <tbody id=\"user-list\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -6,6 +6,7 @@ templ UserList(users []User) {
 		<button hx-get="/users/new" hx-target="#user-form" hx-swap="innerHTML">
 			Add user
 		</button>
+		<div id="user-form"></div>
 		<table>
 			<thead>
 				<tr>
