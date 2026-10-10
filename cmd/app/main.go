@@ -161,7 +161,7 @@ func (app *App) dashboardHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if currentUser.Role == "super_admin" {
-		users, err := app.listUsers()
+		users, err := user.List(app.database)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "Internal server error", http.StatusInternalServerError)

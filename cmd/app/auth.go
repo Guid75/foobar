@@ -89,7 +89,7 @@ func (app *App) requireAuth(next http.Handler) http.Handler {
 			return
 		}
 
-		user, err := app.findUserByID(session.UserID)
+		user, err := user.FindByID(app.database, session.UserID)
 		if err != nil {
 			log.Println(err)
 			http.Error(w, "Internal server error", http.StatusInternalServerError)
@@ -208,7 +208,7 @@ func (app *App) currentUser(r *http.Request) (*user.User, bool) {
 		return nil, false
 	}
 
-	user, err := app.findUserByID(session.UserID)
+	user, err := user.FindByID(app.database, session.UserID)
 	if err != nil {
 		return nil, false
 	}
